@@ -27,18 +27,3 @@ Combine(toke)
 
 ```
 
-## output
-
-將Trie tree 寫入 display.txt
-
-```python
-from NER_Tree import *
-
-# Load dictionary data and construct trie tree
-Data = LoadData("./dictionary.txt")
-Trie_tree = createTokenTree(Data)
-
-# Display trie tree
-# Write to display.txt
-Trie_tree.disp()
-```
