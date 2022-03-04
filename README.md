@@ -13,21 +13,17 @@ from token_tree import *
 Data = LoadData("./dictionary.txt")
 
 # construct trie tree
-Trie_tree = createTokenTree(Data)
+Trie_tree = Create_trie_tree(Data)
+
 
 sentence = "顏面部撕裂傷，騎車汽車發生車禍致鼻樑撕裂傷"
-NER_output = tokenize(Trie_tree, sentence)
-print(NER_output)
 
-"""
-NER_output=
-[
-  ['token1', token1_start_index, token1_end_index],
-  ['token2', token2_start_index, token2_end_index],
-  ['token3', token3_start_index, token3_end_index],
-]
+# 斷詞
+toke = tokenize(Trie_tree, sentence)
+print(toke)
 
-"""
+# 將斷詞結果字串長度只有1的進行結合並輸出
+Combine(toke)
 
 ```
 
