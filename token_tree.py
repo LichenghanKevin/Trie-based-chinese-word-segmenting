@@ -11,22 +11,22 @@ class treeNode:
         for child in self.children.values():
             child.disp(ind+1)
         
-def updateFPtree(items, inTree):
+def updateTree(items, inTree):
     if items[0] not in inTree.children:
         inTree.children[items[0]] = treeNode(items[0])
     if len(items) > 1:
-        updateFPtree(items[1::], inTree.children[items[0]])
+        updateTree(items[1::], inTree.children[items[0]])
 
-def createFPtree(dataset):
+def Create_trie_tree(dataset):
     retTree = treeNode("Null")
     for trans in dataset:
-        updateFPtree(trans, retTree)
+        updateTree(trans, retTree)
 
     return retTree
 
-def LoadData():
+def LoadData(path):
 
-    with open("dict_no_space.txt",mode="r",encoding="utf-8") as file:
+    with open(path,mode="r",encoding="utf-8") as file:
         test_data = []
         for line in file:
             test_data.append(line.strip().encode('utf-8').decode('utf-8-sig'))
@@ -54,21 +54,21 @@ def LoadData():
     data = list(map(list,test_data))
     return data
 
-def mineTree(FPtree, sentence, a):
+def mineTree(Tree, sentence, a):
     # a = 0
     if a <= (len(sentence) - 1):
-        if sentence[a] in FPtree.children:
+        if sentence[a] in Tree.children:
             a = a + 1
-            a = mineTree(FPtree.children[sentence[a-1]], sentence, a)
+            a = mineTree(Tree.children[sentence[a-1]], sentence, a)
     return a
 
 
-def tokenize(FPtree,sentence):
+def tokenize(Tree,sentence):
     toke=[]
     sentencelen =  len(sentence)
     while sentencelen != 0:
         a = 0
-        a = mineTree(FPtree, sentence, a)
+        a = mineTree(Tree, sentence, a)
 
         if a == 0 :
             toke.append(sentence[0:1])
@@ -105,15 +105,15 @@ def Combine(AfterTokenizeList):
     print(output)
     return 0
 
-
+# 
 #開始計時
 if __name__ == '__main__':
     
     now = lambda : time.time()
-    
+    path = "./dict_no_space.txt"
     start = now()
-    simDat = LoadData()
-    FPtree = createFPtree(simDat)
+    simDat = LoadData(path)
+    Tree = Create_trie_tree(simDat)
 
     print(f"Build Token Tree Time : {now()-start}")
     while True:
@@ -125,7 +125,8 @@ if __name__ == '__main__':
             
             
             sentence = x
-            toke = tokenize(FPtree, sentence)
+            toke = tokenize(Tree, sentence)
+            print(toke)
             
             Combine(toke)
             
